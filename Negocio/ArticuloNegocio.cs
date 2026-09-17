@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Dominio;
 
-namespace TPWinForm_equipo_3
+namespace Negocio
 {
-    internal class ArticuloNegocio
+    public class ArticuloNegocio
     {
-        public List<Articulo> lista()
+        public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
             SqlConnection conexion = new SqlConnection();
