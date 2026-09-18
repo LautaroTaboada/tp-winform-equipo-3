@@ -49,5 +49,37 @@ namespace Negocio
                 throw ex;
             }
         }
+        public void agregar(Articulo articulo)
+        {
+            SqlConnection conexion = new SqlConnection();
+            SqlCommand comando = new SqlCommand();
+
+            try
+            {
+                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
+                comando.CommandType = System.Data.CommandType.Text;
+
+                comando.CommandText = "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) " +
+                                     "VALUES (@codigo, @nombre, @descripcion, @idMarca, @idCategoria, @precio)";
+
+                comando.Parameters.AddWithValue("@codigo", articulo.Codigo);
+                comando.Parameters.AddWithValue("@nombre", articulo.Nombre);
+                comando.Parameters.AddWithValue("@descripcion", articulo.Descripcion);
+                comando.Parameters.AddWithValue("@idMarca", articulo.Marca.idMarca);
+                comando.Parameters.AddWithValue("@idCategoria", articulo.Categoria.idCategoria);
+                comando.Parameters.AddWithValue("@precio", articulo.Precio);
+
+                comando.Connection = conexion;
+
+                conexion.Open();
+                comando.ExecuteNonQuery();
+
+                conexion.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
