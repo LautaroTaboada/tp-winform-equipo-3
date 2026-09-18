@@ -13,40 +13,33 @@ namespace Negocio
         public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
-            SqlDataReader lector;
-
-            
-
+            AccesoDatos datos = new AccesoDatos();
             try
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
-                comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "SELECT Codigo, Nombre, Descripcion, Precio FROM ARTICULOS";
-                comando.Connection = conexion;
+                datos.SetearConsulta("SELECT Codigo, Nombre, Descripcion, Precio FROM ARTICULOS");
+                datos.EjecutarLectura();
 
-                conexion.Open();
-            
-                lector = comando.ExecuteReader();
-
-                while (lector.Read()) 
+                while (datos.lector.Read())
                 {
                     Articulo aux = new Articulo();
-                    aux.Codigo = (string)lector["Codigo"]; 
-                    aux.Nombre = (string) lector["Nombre"];
-                    aux.Descripcion = (string)lector["Descripcion"];
-                    aux.Precio = (Decimal)lector["Precio"];
-
+                    aux.Codigo = (string)datos.lector["Codigo"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.Descripcion = (string)datos.lector["Descripcion"];
+                    aux.Precio = (Decimal)datos.lector["Precio"];
                     lista.Add(aux);
                 }
-                conexion.Close();
+
+
                 return lista;
 
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
             }
         }
         public void agregar(Articulo articulo)

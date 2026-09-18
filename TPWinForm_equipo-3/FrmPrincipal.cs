@@ -12,17 +12,16 @@ using Negocio;
 
 namespace TPWinForm_equipo_3
 {
-    public partial class Form1 : Form
+    public partial class FrmPrincipal : Form
     {
-        public Form1()
+        public FrmPrincipal()
         {
             InitializeComponent();
         }
 
         private void cargarListado()
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            dataGridView1.DataSource = negocio.listar();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -41,6 +40,11 @@ namespace TPWinForm_equipo_3
             FrmArticulo formulario = new FrmArticulo();
             formulario.ShowDialog();
             cargarListado();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
