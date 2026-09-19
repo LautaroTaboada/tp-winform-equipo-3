@@ -13,48 +13,42 @@ namespace Negocio
         public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
-            SqlDataReader lector;
-
-            
+            AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
-                comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "SELECT Id, Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio FROM ARTICULOS";
-                comando.Connection = conexion;
+                datos.SetearConsulta("SELECT Id, Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio FROM ARTICULOS");
+                datos.EjecutarLectura();
 
-                conexion.Open();
-            
-                lector = comando.ExecuteReader();
-
-                while (lector.Read()) 
+                while (datos.lector.Read())
                 {
                     Articulo aux = new Articulo();
-                    aux.Id = (int)lector["Id"];
-                    aux.Codigo = (string)lector["Codigo"]; 
-                    aux.Nombre = (string) lector["Nombre"];
-                    aux.Descripcion = (string)lector["Descripcion"];
+
+                    aux.Id = (int)datos.lector["Id"];
+                    aux.Codigo = (string)datos.lector["Codigo"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.Descripcion = (string)datos.lector["Descripcion"];
 
                     aux.Marca = new Marca();
-                    aux.Marca.idMarca = (int)lector["IdMarca"];
+                    aux.Marca.idMarca = (int)datos.lector["IdMarca"];
 
                     aux.Categoria = new Categoria();
-                    aux.Categoria.idCategoria = (int)lector["IdCategoria"];
+                    aux.Categoria.idCategoria = (int)datos.lector["IdCategoria"];
 
-                    aux.Precio = (Decimal)lector["Precio"];
+                    aux.Precio = (decimal)datos.lector["Precio"];
 
                     lista.Add(aux);
                 }
-                conexion.Close();
-                return lista;
 
+                return lista;
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
             }
         }
         public void agregar(Articulo articulo)

@@ -12,9 +12,9 @@ using Negocio;
 
 namespace TPWinForm_equipo_3
 {
-    public partial class Form1 : Form
+    public partial class FrmPrincipal : Form
     {
-        public Form1()
+        public FrmPrincipal()
         {
             InitializeComponent();
         }
