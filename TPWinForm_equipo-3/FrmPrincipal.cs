@@ -69,5 +69,24 @@ namespace TPWinForm_equipo_3
 
             dataGridView1.DataSource = negocio.buscar(txtBuscar.Text);
         }
+
+        private void Filtros_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAgregar_Click_1(object sender, EventArgs e)
+        {
+            FrmArticulo formulario = new FrmArticulo();
+            formulario.ShowDialog();
+            cargarListado();
+        }
+
+        private void btnAgregarArticulo_Click(object sender, EventArgs e)
+        {
+            FrmArticulo formulario = new FrmArticulo();
+            formulario.ShowDialog();
+            cargarListado();
+        }
     }
 }
