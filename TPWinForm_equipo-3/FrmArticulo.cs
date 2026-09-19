@@ -25,6 +25,7 @@ namespace TPWinForm_equipo_3
             InitializeComponent();
             this.articulo = articulo;
             cargarCombos();
+            cargarDatos();
         }
 
         private void cargarCombos()
@@ -39,6 +40,16 @@ namespace TPWinForm_equipo_3
             cmbCategoria.DataSource = negocioCategoria.listar();
             cmbCategoria.DisplayMember = "Descripcion";
             cmbCategoria.ValueMember = "IdCategoria";
+        }
+        private void cargarDatos()
+        {
+            txtCodigo.Text = articulo.Codigo;
+            txtNombre.Text = articulo.Nombre;
+            txtDescripcion.Text = articulo.Descripcion;
+            txtPrecio.Text = articulo.Precio.ToString();
+
+            cmbMarca.SelectedValue = articulo.Marca.idMarca;
+            cmbCategoria.SelectedValue = articulo.Categoria.idCategoria;
         }
 
         private void FrmArticulo_Load(object sender, EventArgs e)
@@ -63,11 +74,14 @@ namespace TPWinForm_equipo_3
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            Articulo articulo = new Articulo();
+           
             ArticuloNegocio negocio = new ArticuloNegocio();
 
             try
             {
+                if(articulo == null)
+
+                articulo = new Articulo();
                 articulo.Codigo = txtCodigo.Text;
                 articulo.Nombre = txtNombre.Text;
                 articulo.Descripcion = txtDescripcion.Text;
@@ -77,9 +91,18 @@ namespace TPWinForm_equipo_3
 
                 articulo.Precio = decimal.Parse(txtPrecio.Text);
 
-                negocio.agregar(articulo);
+                if (articulo.Id == 0)
+                {
+                    negocio.agregar(articulo);
+                    MessageBox.Show("Agregado exitosamente");
+                }
+                else
+                {
+                    negocio.modificar(articulo);
+                    MessageBox.Show("Modificado exitosamente");
+                }
 
-                MessageBox.Show("Agregado exitosamente");
+                
                 Close();
             }
             catch (Exception ex)

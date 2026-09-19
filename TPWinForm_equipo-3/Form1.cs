@@ -42,5 +42,32 @@ namespace TPWinForm_equipo_3
             formulario.ShowDialog();
             cargarListado();
         }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Articulo seleccionado = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
+
+            FrmArticulo formulario = new FrmArticulo(seleccionado);
+            formulario.ShowDialog();
+
+            cargarListado();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            Articulo seleccionado = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            negocio.eliminar(seleccionado.Id);
+
+            cargarListado();
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            dataGridView1.DataSource = negocio.buscar(txtBuscar.Text);
+        }
     }
 }
