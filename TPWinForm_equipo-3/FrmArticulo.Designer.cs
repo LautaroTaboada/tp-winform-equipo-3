@@ -137,12 +137,12 @@
             // 
             this.txtPrecio.Location = new System.Drawing.Point(298, 241);
             this.txtPrecio.Name = "txtPrecio";
-            this.txtPrecio.Size = new System.Drawing.Size(100, 20);
+            this.txtPrecio.Size = new System.Drawing.Size(121, 20);
             this.txtPrecio.TabIndex = 12;
             // 
             // picImagen
             // 
-            this.picImagen.Location = new System.Drawing.Point(468, 232);
+            this.picImagen.Location = new System.Drawing.Point(464, 231);
             this.picImagen.Name = "picImagen";
             this.picImagen.Size = new System.Drawing.Size(150, 150);
             this.picImagen.TabIndex = 13;
@@ -173,7 +173,7 @@
             this.cmbMarca.FormattingEnabled = true;
             this.cmbMarca.Location = new System.Drawing.Point(298, 161);
             this.cmbMarca.Name = "cmbMarca";
-            this.cmbMarca.Size = new System.Drawing.Size(121, 21);
+            this.cmbMarca.Size = new System.Drawing.Size(100, 21);
             this.cmbMarca.TabIndex = 16;
             this.cmbMarca.SelectedIndexChanged += new System.EventHandler(this.cmbMarca_SelectedIndexChanged);
             // 
@@ -182,13 +182,14 @@
             this.cmbCategoria.FormattingEnabled = true;
             this.cmbCategoria.Location = new System.Drawing.Point(298, 201);
             this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(121, 21);
+            this.cmbCategoria.Size = new System.Drawing.Size(100, 21);
             this.cmbCategoria.TabIndex = 17;
             // 
             // FrmArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.cmbCategoria);
             this.Controls.Add(this.cmbMarca);
@@ -207,7 +208,8 @@
             this.Controls.Add(this.txtCodigo);
             this.Controls.Add(this.label1);
             this.Name = "FrmArticulo";
-            this.Text = "Articulo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "FrmCargarArticulo";
             this.Load += new System.EventHandler(this.FrmArticulo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picImagen)).EndInit();
             this.ResumeLayout(false);

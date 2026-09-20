@@ -88,5 +88,10 @@ namespace TPWinForm_equipo_3
             formulario.ShowDialog();
             cargarListado();
         }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
