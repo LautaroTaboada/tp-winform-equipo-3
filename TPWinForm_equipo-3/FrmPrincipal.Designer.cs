@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.pictureBoxArticulo = new System.Windows.Forms.PictureBox();
             this.btnEliminar = new System.Windows.Forms.Button();
@@ -42,34 +43,44 @@
             this.label2 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.btnAgregar = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxArticulo)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(20)))), ((int)(((byte)(40)))));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(34, 71);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(480, 291);
+            this.dataGridView1.Size = new System.Drawing.Size(487, 209);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
             // pictureBoxArticulo
             // 
-            this.pictureBoxArticulo.Location = new System.Drawing.Point(591, 158);
+            this.pictureBoxArticulo.Location = new System.Drawing.Point(534, 71);
             this.pictureBoxArticulo.Name = "pictureBoxArticulo";
-            this.pictureBoxArticulo.Size = new System.Drawing.Size(214, 122);
+            this.pictureBoxArticulo.Size = new System.Drawing.Size(146, 120);
             this.pictureBoxArticulo.TabIndex = 1;
             this.pictureBoxArticulo.TabStop = false;
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(365, 386);
+            this.btnEliminar.FlatAppearance.BorderSize = 0;
+            this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEliminar.Font = new System.Drawing.Font("Ebrima", 10F);
+            this.btnEliminar.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminar.Image")));
+            this.btnEliminar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEliminar.Location = new System.Drawing.Point(69, 91);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminar.Size = new System.Drawing.Size(101, 29);
             this.btnEliminar.TabIndex = 3;
             this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnEliminar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnEliminar.UseVisualStyleBackColor = true;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
@@ -111,7 +122,7 @@
             // 
             // btnAdelante
             // 
-            this.btnAdelante.Location = new System.Drawing.Point(812, 212);
+            this.btnAdelante.Location = new System.Drawing.Point(592, 212);
             this.btnAdelante.Name = "btnAdelante";
             this.btnAdelante.Size = new System.Drawing.Size(59, 22);
             this.btnAdelante.TabIndex = 8;
@@ -154,20 +165,39 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(255, 386);
+            this.btnAgregar.FlatAppearance.BorderSize = 0;
+            this.btnAgregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAgregar.Font = new System.Drawing.Font("Ebrima", 10F);
+            this.btnAgregar.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregar.Image")));
+            this.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAgregar.Location = new System.Drawing.Point(69, 50);
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(75, 23);
+            this.btnAgregar.Size = new System.Drawing.Size(101, 35);
             this.btnAgregar.TabIndex = 16;
             this.btnAgregar.Text = "Agregar";
+            this.btnAgregar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click_1);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(20)))), ((int)(((byte)(40)))));
+            this.panel1.Controls.Add(this.btnAgregar);
+            this.panel1.Controls.Add(this.btnEliminar);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.ForeColor = System.Drawing.Color.White;
+            this.panel1.Location = new System.Drawing.Point(686, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 502);
+            this.panel1.TabIndex = 17;
             // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ClientSize = new System.Drawing.Size(886, 502);
-            this.Controls.Add(this.btnAgregar);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox3);
@@ -177,7 +207,6 @@
             this.Controls.Add(this.lblFiltros);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtBuscar);
-            this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.pictureBoxArticulo);
             this.Controls.Add(this.dataGridView1);
             this.Name = "FrmPrincipal";
@@ -186,6 +215,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxArticulo)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,6 +236,7 @@
         private System.Windows.Forms.Label label2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btnAgregar;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

@@ -100,5 +100,35 @@
       <Name>Negocio</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="imagenes\Agregar.png" />
+    <Content Include="imagenes\AgregarBlanco.png" />
+    <Content Include="imagenes\buscarBlanco.png" />
+    <Content Include="imagenes\carpetaBlanca.png" />
+    <Content Include="imagenes\categorias.png" />
+    <Content Include="imagenes\cerrar.png" />
+    <Content Include="imagenes\eliminar.png" />
+    <Content Include="imagenes\eliminarBlanco.png" />
+    <Content Include="imagenes\filtrar.png" />
+    <Content Include="imagenes\Filtrar2.png" />
+    <Content Include="imagenes\FiltrarBlanco.png" />
+    <Content Include="imagenes\flecha-derecha-recta.png" />
+    <Content Include="imagenes\flechaDerecha.png" />
+    <Content Include="imagenes\flechaIzquierda.png" />
+    <Content Include="imagenes\imagenNotFound.png" />
+    <Content Include="imagenes\imagenNotFound2.png" />
+    <Content Include="imagenes\imagenNotFound3.png" />
+    <Content Include="imagenes\marca.png" />
+    <Content Include="imagenes\masBlanco.png" />
+    <Content Include="imagenes\Maximizar.png" />
+    <Content Include="imagenes\menosBlanco.png" />
+    <Content Include="imagenes\Minimizar.png" />
+    <Content Include="imagenes\Modificar.png" />
+    <Content Include="imagenes\ModificarBlanco.png" />
+    <Content Include="imagenes\ModificarBlanco1.png" />
+    <Content Include="imagenes\restaurar.png" />
+    <Content Include="imagenes\simbolo-de-flecha-hacia-la-izquierda-direccional.png" />
+    <Content Include="imagenes\tachoBlanco.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
