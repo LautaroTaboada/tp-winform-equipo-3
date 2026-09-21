@@ -14,7 +14,8 @@ namespace TPWinForm_equipo_3
 {
     public partial class FrmPrincipal : Form
     {
-
+        private int indiceImagen = 0;
+        private Articulo articuloActual;
         public FrmPrincipal()
         {
             InitializeComponent();
@@ -114,27 +115,47 @@ namespace TPWinForm_equipo_3
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
+
             if (dataGridView1.CurrentRow == null)
                 return;
 
-            Articulo seleccionado = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
+            articuloActual = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
 
             ImagenNegocio imagenNegocio = new ImagenNegocio();
-            seleccionado.Imagenes =
-                imagenNegocio.listarPorArticulo(seleccionado.Id);
-            if (seleccionado.Imagenes.Count > 0)
-                cargarImagen(seleccionado.Imagenes[0].ImagenUrl);
+
+            articuloActual.Imagenes =
+                imagenNegocio.listarPorArticulo(articuloActual.Id);
+
+            indiceImagen = 0;
+
+            if (articuloActual.Imagenes.Count > 0)
+                cargarImagen(articuloActual.Imagenes[indiceImagen].ImagenUrl);
         
         }
 
         private void btnAtras_Click(object sender, EventArgs e)
         {
+            if (articuloActual == null)
+                return;
 
+            if (indiceImagen > 0)
+            {
+                indiceImagen--;
+                cargarImagen(articuloActual.Imagenes[indiceImagen].ImagenUrl);
+        }
+       
         }
 
         private void btnAdelante_Click(object sender, EventArgs e)
         {
+            if (articuloActual == null)
+                return;
 
+            if (indiceImagen < articuloActual.Imagenes.Count - 1)
+            {
+                indiceImagen++;
+                cargarImagen(articuloActual.Imagenes[indiceImagen].ImagenUrl);
+            }
         }
     }
 }
