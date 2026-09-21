@@ -14,9 +14,21 @@ namespace TPWinForm_equipo_3
 {
     public partial class FrmPrincipal : Form
     {
+
         public FrmPrincipal()
         {
             InitializeComponent();
+        }
+        private void cargarImagen(string imagen)
+        {
+            try
+            {
+                pictureBoxArticulo.Load(imagen);
+            }
+            catch (Exception)
+            {
+                pictureBoxArticulo.Load("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png");
+            }
         }
 
         private void cargarListado()
@@ -28,6 +40,7 @@ namespace TPWinForm_equipo_3
         private void Form1_Load(object sender, EventArgs e)
         {
             cargarListado();
+
         }
         
 
@@ -90,6 +103,36 @@ namespace TPWinForm_equipo_3
         }
 
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void pictureBoxArticulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+                return;
+
+            Articulo seleccionado = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
+
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            seleccionado.Imagenes =
+                imagenNegocio.listarPorArticulo(seleccionado.Id);
+            if (seleccionado.Imagenes.Count > 0)
+                cargarImagen(seleccionado.Imagenes[0].ImagenUrl);
+        
+        }
+
+        private void btnAtras_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAdelante_Click(object sender, EventArgs e)
         {
 
         }

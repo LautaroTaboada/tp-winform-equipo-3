@@ -55,18 +55,21 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(34, 71);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(487, 209);
+            this.dataGridView1.Size = new System.Drawing.Size(765, 209);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // pictureBoxArticulo
             // 
-            this.pictureBoxArticulo.Location = new System.Drawing.Point(534, 71);
+            this.pictureBoxArticulo.Location = new System.Drawing.Point(877, 91);
             this.pictureBoxArticulo.Name = "pictureBoxArticulo";
             this.pictureBoxArticulo.Size = new System.Drawing.Size(146, 120);
+            this.pictureBoxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxArticulo.TabIndex = 1;
             this.pictureBoxArticulo.TabStop = false;
+            this.pictureBoxArticulo.Click += new System.EventHandler(this.pictureBoxArticulo_Click);
             // 
             // btnEliminar
             // 
@@ -114,21 +117,23 @@
             // 
             // btnAtras
             // 
-            this.btnAtras.Location = new System.Drawing.Point(527, 212);
+            this.btnAtras.Location = new System.Drawing.Point(877, 232);
             this.btnAtras.Name = "btnAtras";
             this.btnAtras.Size = new System.Drawing.Size(59, 22);
             this.btnAtras.TabIndex = 7;
             this.btnAtras.Text = "Atras";
             this.btnAtras.UseVisualStyleBackColor = true;
+            this.btnAtras.Click += new System.EventHandler(this.btnAtras_Click);
             // 
             // btnAdelante
             // 
-            this.btnAdelante.Location = new System.Drawing.Point(592, 212);
+            this.btnAdelante.Location = new System.Drawing.Point(964, 232);
             this.btnAdelante.Name = "btnAdelante";
             this.btnAdelante.Size = new System.Drawing.Size(59, 22);
             this.btnAdelante.TabIndex = 8;
             this.btnAdelante.Text = "Adelante";
             this.btnAdelante.UseVisualStyleBackColor = true;
+            this.btnAdelante.Click += new System.EventHandler(this.btnAdelante_Click);
             // 
             // comboBox1
             // 
@@ -187,9 +192,9 @@
             this.panel1.Controls.Add(this.btnEliminar);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.ForeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(686, 0);
+            this.panel1.Location = new System.Drawing.Point(1132, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 502);
+            this.panel1.Size = new System.Drawing.Size(200, 594);
             this.panel1.TabIndex = 17;
             // 
             // FrmPrincipal
@@ -197,7 +202,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.ClientSize = new System.Drawing.Size(886, 502);
+            this.ClientSize = new System.Drawing.Size(1332, 594);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);

@@ -29,6 +29,10 @@ namespace Negocio
             Comando.CommandType = System.Data.CommandType.Text;
             Comando.CommandText = consulta;
         }
+        public void SetearParametro(string nombre, object valor)
+        {
+            Comando.Parameters.AddWithValue(nombre, valor);
+        }
 
         public void EjecutarLectura()
         {

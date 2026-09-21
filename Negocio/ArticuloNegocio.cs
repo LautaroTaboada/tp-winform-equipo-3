@@ -18,6 +18,7 @@ namespace Negocio
             try
             {
                 datos.SetearConsulta("SELECT A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion Marca, C.Descripcion Categoria, Precio, A.IdMarca, A.IdCategoria FROM ARTICULOS A, CATEGORIAS C, MARCAS M where C.Id= A.IdCategoria and A.IdMarca = M.Id");
+                
                 datos.EjecutarLectura();
 
                 while (datos.lector.Read())
