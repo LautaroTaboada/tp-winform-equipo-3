@@ -67,14 +67,32 @@ namespace TPWinForm_equipo_3
             cargarListado();
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            Articulo seleccionado = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
+            eliminar();
+        }
+
+        private void eliminar(bool logico = false)
+        {
             ArticuloNegocio negocio = new ArticuloNegocio();
+            ImagenNegocio negocioImg = new ImagenNegocio();
+            Articulo seleccionado;
+            try
+            {
+                DialogResult respuesta = MessageBox.Show("¿De verdad querés eliminarlo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (respuesta == DialogResult.Yes)
+                {
+                    seleccionado = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
+                    int idArticulo = seleccionado.Id;
+                    negocio.eliminar(idArticulo);
 
-            negocio.eliminar(seleccionado.Id);
-
-            cargarListado();
+                    cargarListado();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)

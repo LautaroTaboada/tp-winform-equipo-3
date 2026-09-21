@@ -115,5 +115,10 @@ namespace TPWinForm_equipo_3
         {
             Close();
         }
+
+        private void txtCodigo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
