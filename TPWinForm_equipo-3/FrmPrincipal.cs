@@ -175,5 +175,12 @@ namespace TPWinForm_equipo_3
                 cargarImagen(articuloActual.Imagenes[indiceImagen].ImagenUrl);
             }
         }
+
+        private void btnAgregarCategoria_Click(object sender, EventArgs e)
+        {
+            FrmCategoria ventana = new FrmCategoria();
+
+            ventana.ShowDialog();
+        }
     }
 }
