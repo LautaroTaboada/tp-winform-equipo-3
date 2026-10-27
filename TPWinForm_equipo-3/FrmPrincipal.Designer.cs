@@ -35,7 +35,7 @@
             this.lblFiltros = new System.Windows.Forms.Label();
             this.btnAtras = new System.Windows.Forms.Button();
             this.btnAdelante = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.cbFiltroMarca = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -44,7 +44,7 @@
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.pictureBoxArticulo = new System.Windows.Forms.PictureBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbFiltroCategoria = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxArticulo)).BeginInit();
@@ -56,6 +56,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(34, 71);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(765, 209);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
@@ -109,13 +110,14 @@
             this.btnAdelante.UseVisualStyleBackColor = true;
             this.btnAdelante.Click += new System.EventHandler(this.btnAdelante_Click);
             // 
-            // comboBox3
+            // cbFiltroMarca
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(429, 28);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(107, 21);
-            this.comboBox3.TabIndex = 12;
+            this.cbFiltroMarca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltroMarca.FormattingEnabled = true;
+            this.cbFiltroMarca.Location = new System.Drawing.Point(429, 28);
+            this.cbFiltroMarca.Name = "cbFiltroMarca";
+            this.cbFiltroMarca.Size = new System.Drawing.Size(107, 21);
+            this.cbFiltroMarca.TabIndex = 12;
             // 
             // label1
             // 
@@ -200,7 +202,7 @@
             // 
             // pictureBoxArticulo
             // 
-            this.pictureBoxArticulo.Location = new System.Drawing.Point(877, 91);
+            this.pictureBoxArticulo.Location = new System.Drawing.Point(877, 106);
             this.pictureBoxArticulo.Name = "pictureBoxArticulo";
             this.pictureBoxArticulo.Size = new System.Drawing.Size(146, 120);
             this.pictureBoxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -208,13 +210,14 @@
             this.pictureBoxArticulo.TabStop = false;
             this.pictureBoxArticulo.Click += new System.EventHandler(this.pictureBoxArticulo_Click);
             // 
-            // comboBox1
+            // cbFiltroCategoria
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(316, 27);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(107, 21);
-            this.comboBox1.TabIndex = 10;
+            this.cbFiltroCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltroCategoria.FormattingEnabled = true;
+            this.cbFiltroCategoria.Location = new System.Drawing.Point(316, 27);
+            this.cbFiltroCategoria.Name = "cbFiltroCategoria";
+            this.cbFiltroCategoria.Size = new System.Drawing.Size(107, 21);
+            this.cbFiltroCategoria.TabIndex = 10;
             // 
             // FrmPrincipal
             // 
@@ -225,8 +228,8 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cbFiltroMarca);
+            this.Controls.Add(this.cbFiltroCategoria);
             this.Controls.Add(this.btnAdelante);
             this.Controls.Add(this.btnAtras);
             this.Controls.Add(this.lblFiltros);
@@ -234,6 +237,8 @@
             this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.pictureBoxArticulo);
             this.Controls.Add(this.dataGridView1);
+            this.MaximumSize = new System.Drawing.Size(1348, 633);
+            this.MinimumSize = new System.Drawing.Size(1348, 633);
             this.Name = "FrmPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormularioPrincipal";
@@ -255,14 +260,14 @@
         private System.Windows.Forms.Label lblFiltros;
         private System.Windows.Forms.Button btnAtras;
         private System.Windows.Forms.Button btnAdelante;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox cbFiltroMarca;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAgregarCategoria;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbFiltroCategoria;
     }
 }
 

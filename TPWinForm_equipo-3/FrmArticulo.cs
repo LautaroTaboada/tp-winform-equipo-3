@@ -190,5 +190,15 @@ namespace TPWinForm_equipo_3
         private void cmbMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
+
+        private void btnVistaPrevia_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCodigo_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
