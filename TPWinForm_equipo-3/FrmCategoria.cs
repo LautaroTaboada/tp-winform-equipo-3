@@ -82,8 +82,13 @@ namespace TPWinForm_equipo_3
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            
-            // Crear OTRA ventana  FrmAltaCategoria
+
+            FrmAltaCategoria alta = new FrmAltaCategoria();
+
+
+            alta.ShowDialog();
+
+            cargarGrilla();
 
         }
 
@@ -99,15 +104,12 @@ namespace TPWinForm_equipo_3
            
         }
 
-       
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
+      
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+       
     }
 }

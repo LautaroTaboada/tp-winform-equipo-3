@@ -33,14 +33,14 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lbTitulo = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtListaBorrar = new System.Windows.Forms.TextBox();
             this.txtIngresoCategoria = new System.Windows.Forms.TextBox();
             this.lbCategoria = new System.Windows.Forms.Label();
-            this.txtListaBorrar = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.panelDerecho = new System.Windows.Forms.Panel();
-            this.btnAgregar = new System.Windows.Forms.Button();
-            this.btnBorrar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnBorrar = new System.Windows.Forms.Button();
+            this.btnAgregar = new System.Windows.Forms.Button();
             this.PanelSuperior.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -71,7 +71,7 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            
             // 
             // pictureBox1
             // 
@@ -111,6 +111,26 @@
             this.panel3.Size = new System.Drawing.Size(341, 138);
             this.panel3.TabIndex = 5;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Ebrima", 11F);
+            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label1.Location = new System.Drawing.Point(111, 59);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(172, 20);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Seleccione para Eliminar";
+            // 
+            // txtListaBorrar
+            // 
+            this.txtListaBorrar.Location = new System.Drawing.Point(81, 84);
+            this.txtListaBorrar.Margin = new System.Windows.Forms.Padding(2);
+            this.txtListaBorrar.Name = "txtListaBorrar";
+            this.txtListaBorrar.Size = new System.Drawing.Size(231, 20);
+            this.txtListaBorrar.TabIndex = 2;
+            // 
             // txtIngresoCategoria
             // 
             this.txtIngresoCategoria.Location = new System.Drawing.Point(81, 34);
@@ -131,26 +151,6 @@
             this.lbCategoria.TabIndex = 0;
             this.lbCategoria.Text = "Ingrese Categoria Nueva";
             // 
-            // txtListaBorrar
-            // 
-            this.txtListaBorrar.Location = new System.Drawing.Point(81, 84);
-            this.txtListaBorrar.Margin = new System.Windows.Forms.Padding(2);
-            this.txtListaBorrar.Name = "txtListaBorrar";
-            this.txtListaBorrar.Size = new System.Drawing.Size(231, 20);
-            this.txtListaBorrar.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Ebrima", 11F);
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(111, 59);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(172, 20);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Seleccione para Eliminar";
-            // 
             // panelDerecho
             // 
             this.panelDerecho.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(20)))), ((int)(((byte)(40)))));
@@ -163,14 +163,15 @@
             this.panelDerecho.Size = new System.Drawing.Size(192, 138);
             this.panelDerecho.TabIndex = 4;
             // 
-            // btnAgregar
+            // btnEliminar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(61, 10);
-            this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(75, 23);
-            this.btnAgregar.TabIndex = 0;
-            this.btnAgregar.Text = "Agregar";
-            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Location = new System.Drawing.Point(61, 81);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminar.TabIndex = 2;
+            this.btnEliminar.Text = "Cancelar";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnBorrar
             // 
@@ -181,15 +182,15 @@
             this.btnBorrar.Text = "Borrar";
             this.btnBorrar.UseVisualStyleBackColor = true;
             // 
-            // btnEliminar
+            // btnAgregar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(61, 81);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
-            this.btnEliminar.TabIndex = 2;
-            this.btnEliminar.Text = "Cancelar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            this.btnAgregar.Location = new System.Drawing.Point(61, 10);
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.Size = new System.Drawing.Size(75, 23);
+            this.btnAgregar.TabIndex = 0;
+            this.btnAgregar.Text = "Agregar";
+            this.btnAgregar.UseVisualStyleBackColor = true;
+            
             // 
             // FrmCategoria
             // 

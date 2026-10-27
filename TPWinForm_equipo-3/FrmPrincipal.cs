@@ -182,5 +182,10 @@ namespace TPWinForm_equipo_3
 
             ventana.ShowDialog();
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
