@@ -44,6 +44,9 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.cmbMarca = new System.Windows.Forms.ComboBox();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
+            this.btnVistaPrevia = new System.Windows.Forms.Button();
+            this.lblUrlArticulo = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picImagen)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,6 +65,7 @@
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(100, 20);
             this.txtCodigo.TabIndex = 1;
+            this.txtCodigo.TextChanged += new System.EventHandler(this.txtCodigo_TextChanged_1);
             // 
             // label2
             // 
@@ -111,7 +115,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(387, 321);
+            this.label7.Location = new System.Drawing.Point(495, 357);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(48, 13);
             this.label7.TabIndex = 7;
@@ -140,7 +144,7 @@
             // 
             // picImagen
             // 
-            this.picImagen.Location = new System.Drawing.Point(464, 231);
+            this.picImagen.Location = new System.Drawing.Point(572, 267);
             this.picImagen.Name = "picImagen";
             this.picImagen.Size = new System.Drawing.Size(150, 150);
             this.picImagen.TabIndex = 13;
@@ -167,6 +171,7 @@
             // 
             // cmbMarca
             // 
+            this.cmbMarca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMarca.FormattingEnabled = true;
             this.cmbMarca.Location = new System.Drawing.Point(298, 161);
             this.cmbMarca.Name = "cmbMarca";
@@ -176,18 +181,48 @@
             // 
             // cmbCategoria
             // 
+            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCategoria.FormattingEnabled = true;
             this.cmbCategoria.Location = new System.Drawing.Point(298, 201);
             this.cmbCategoria.Name = "cmbCategoria";
             this.cmbCategoria.Size = new System.Drawing.Size(100, 21);
             this.cmbCategoria.TabIndex = 17;
             // 
+            // btnVistaPrevia
+            // 
+            this.btnVistaPrevia.Location = new System.Drawing.Point(423, 277);
+            this.btnVistaPrevia.Name = "btnVistaPrevia";
+            this.btnVistaPrevia.Size = new System.Drawing.Size(42, 37);
+            this.btnVistaPrevia.TabIndex = 18;
+            this.btnVistaPrevia.Text = "VistaPrevia";
+            this.btnVistaPrevia.UseVisualStyleBackColor = true;
+            this.btnVistaPrevia.Click += new System.EventHandler(this.btnVistaPrevia_Click);
+            // 
+            // lblUrlArticulo
+            // 
+            this.lblUrlArticulo.AutoSize = true;
+            this.lblUrlArticulo.Location = new System.Drawing.Point(188, 289);
+            this.lblUrlArticulo.Name = "lblUrlArticulo";
+            this.lblUrlArticulo.Size = new System.Drawing.Size(23, 13);
+            this.lblUrlArticulo.TabIndex = 19;
+            this.lblUrlArticulo.Text = "Url:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(296, 282);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(121, 20);
+            this.textBox1.TabIndex = 20;
+            // 
             // FrmArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.ClientSize = new System.Drawing.Size(641, 492);
+            this.ClientSize = new System.Drawing.Size(766, 492);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.lblUrlArticulo);
+            this.Controls.Add(this.btnVistaPrevia);
             this.Controls.Add(this.cmbCategoria);
             this.Controls.Add(this.cmbMarca);
             this.Controls.Add(this.btnCancelar);
@@ -232,5 +267,8 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.ComboBox cmbMarca;
         private System.Windows.Forms.ComboBox cmbCategoria;
+        private System.Windows.Forms.Button btnVistaPrevia;
+        private System.Windows.Forms.Label lblUrlArticulo;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
