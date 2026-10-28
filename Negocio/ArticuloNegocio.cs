@@ -54,54 +54,84 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
+
         public void agregar(Articulo articulo)
         {
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
-
-            try
+            using (SqlConnection conexion = new SqlConnection())
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
-                comando.CommandType = System.Data.CommandType.Text;
-
-                comando.CommandText = "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) " +
-                                     "VALUES (@codigo, @nombre, @descripcion, @idMarca, @idCategoria, @precio)";
-
-                comando.Parameters.AddWithValue("@codigo", articulo.Codigo);
-                comando.Parameters.AddWithValue("@nombre", articulo.Nombre);
-                comando.Parameters.AddWithValue("@descripcion", articulo.Descripcion);
-                comando.Parameters.AddWithValue("@idMarca", articulo.Marca.idMarca);
-                comando.Parameters.AddWithValue("@idCategoria", articulo.Categoria.idCategoria);
-                comando.Parameters.AddWithValue("@precio", articulo.Precio);
-
-                comando.Connection = conexion;
+                conexion.ConnectionString =
+                    "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
 
                 conexion.Open();
-                comando.ExecuteNonQuery();
 
-                conexion.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                using (SqlTransaction transaccion = conexion.BeginTransaction(
+                    System.Data.IsolationLevel.Serializable))
+                {
+                    try
+                    {
+                        string codigo;
+
+                        using (SqlCommand comandoCodigo = new SqlCommand(
+                            "SELECT ISNULL(MAX(TRY_CONVERT(INT, " +
+                            "SUBSTRING(Codigo, 4, 50))), 0) + 1 " +
+                            "FROM ARTICULOS WITH (UPDLOCK, HOLDLOCK) " +
+                            "WHERE Codigo LIKE 'ART%' " +
+                            "AND TRY_CONVERT(INT, SUBSTRING(Codigo, 4, 50)) IS NOT NULL",
+                            conexion, transaccion))
+                        {
+                            int siguiente = (int)comandoCodigo.ExecuteScalar();
+                            codigo = "ART" + siguiente.ToString("D3");
+                        }
+
+                        using (SqlCommand comando = new SqlCommand(
+                            "INSERT INTO ARTICULOS " +
+                            "(Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) " +
+                            "VALUES (@codigo, @nombre, @descripcion, " +
+                            "@idMarca, @idCategoria, @precio)",
+                            conexion, transaccion))
+                        {
+                            comando.Parameters.AddWithValue("@codigo", codigo);
+                            comando.Parameters.AddWithValue("@nombre", articulo.Nombre);
+                            comando.Parameters.AddWithValue("@descripcion", articulo.Descripcion);
+                            comando.Parameters.AddWithValue("@idMarca", articulo.Marca.idMarca);
+                            comando.Parameters.AddWithValue("@idCategoria", articulo.Categoria.idCategoria);
+                            comando.Parameters.AddWithValue("@precio", articulo.Precio);
+
+                            comando.ExecuteNonQuery();
+                        }
+
+                        transaccion.Commit();
+
+                        articulo.Codigo = codigo;
+                    }
+                    catch
+                    {
+                        transaccion.Rollback();
+                        throw;
+                    }
+                }
             }
         }
+
+
+
         public void modificar(Articulo articulo)
         {
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
-
-            try
+            using (SqlConnection conexion = new SqlConnection())
+            using (SqlCommand comando = new SqlCommand())
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
+                conexion.ConnectionString =
+                    "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
+
+                comando.Connection = conexion;
                 comando.CommandType = System.Data.CommandType.Text;
 
-                comando.CommandText = "UPDATE ARTICULOS SET Codigo = @codigo, Nombre = @nombre, " +
-                                     "Descripcion = @descripcion, IdMarca = @idMarca, " +
-                                     "IdCategoria = @idCategoria, Precio = @precio " +
-                                     "WHERE Id = @id";
+                comando.CommandText =
+                    "UPDATE ARTICULOS SET Nombre = @nombre, " +
+                    "Descripcion = @descripcion, IdMarca = @idMarca, " +
+                    "IdCategoria = @idCategoria, Precio = @precio " +
+                    "WHERE Id = @id";
 
-                comando.Parameters.AddWithValue("@codigo", articulo.Codigo);
                 comando.Parameters.AddWithValue("@nombre", articulo.Nombre);
                 comando.Parameters.AddWithValue("@descripcion", articulo.Descripcion);
                 comando.Parameters.AddWithValue("@idMarca", articulo.Marca.idMarca);
@@ -109,18 +139,12 @@ namespace Negocio
                 comando.Parameters.AddWithValue("@precio", articulo.Precio);
                 comando.Parameters.AddWithValue("@id", articulo.Id);
 
-                comando.Connection = conexion;
-
                 conexion.Open();
                 comando.ExecuteNonQuery();
-
-                conexion.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
         }
+
+
         public void eliminar(int id)
         {
             SqlConnection conexion = new SqlConnection();
