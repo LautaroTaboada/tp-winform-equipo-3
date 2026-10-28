@@ -72,7 +72,10 @@ namespace TPWinForm_equipo_3
                 if (articulo == null)
                     articulo = new Articulo();
 
-                articulo.Codigo = txtCodigo.Text;
+                if (articulo.Id != 0)
+                {
+                    articulo.Codigo = txtCodigo.Text;
+                }
                 articulo.Nombre = txtNombre.Text;
                 articulo.Descripcion = txtDescripcion.Text;
 
@@ -103,51 +106,64 @@ namespace TPWinForm_equipo_3
         // Método de validación basado en el estilo del proyecto de referencia[cite: 4]
         private bool Validar()
         {
-            if (txtCodigo.Text.Length == 0)
+            // Validar nombre
+            if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                txtNombre.Text.Trim().Length < 3)
             {
-                MessageBox.Show("El código no puede estar vacío.");
-                txtCodigo.Focus();
-                return false;
-            }
-
-            if (txtNombre.Text.Length < 3)
-            {
-                MessageBox.Show("El nombre debe tener un mínimo de 3 caracteres.");
+                MessageBox.Show("El nombre debe tener un mínimo de 3 caracteres.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return false;
             }
 
-            if (!soloNumeros(txtPrecio.Text))
+            // Validar precio
+            decimal precio;
+
+            if (string.IsNullOrWhiteSpace(txtPrecio.Text) ||
+                !decimal.TryParse(
+                    txtPrecio.Text.Trim(),
+                    System.Globalization.NumberStyles.Number,
+                    System.Globalization.CultureInfo.CurrentCulture,
+                    out precio))
             {
-                MessageBox.Show("Debe ingresar sólo valores numéricos en el precio.");
+                MessageBox.Show("Ingrese un precio numérico válido.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPrecio.Focus();
                 return false;
             }
 
-            if (!separaPorComa(txtPrecio.Text))
+            if (precio <= 0)
             {
-                MessageBox.Show("Use la coma ',' para separar los decimales.");
+                MessageBox.Show("El precio debe ser mayor que cero.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPrecio.Focus();
                 return false;
             }
 
-            if (txtDescripcion.Text.Length < 5)
+            // Validar descripción
+            if (string.IsNullOrWhiteSpace(txtDescripcion.Text) ||
+                txtDescripcion.Text.Trim().Length < 5)
             {
-                MessageBox.Show("La descripción debe tener un mínimo de 5 caracteres.");
+                MessageBox.Show("La descripción debe tener un mínimo de 5 caracteres.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDescripcion.Focus();
                 return false;
             }
 
+            // Validar marca
             if (cmbMarca.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe seleccionar una marca.");
+                MessageBox.Show("Debe seleccionar una marca.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbMarca.Focus();
                 return false;
             }
 
+            // Validar categoría
             if (cmbCategoria.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe seleccionar una categoría.");
+                MessageBox.Show("Debe seleccionar una categoría.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbCategoria.Focus();
                 return false;
             }
