@@ -100,7 +100,7 @@ namespace TPWinForm_equipo_3
             }
         }
 
-        // Método de validación basado en el estilo del proyecto de referencia[cite: 4]
+        // Método de validación basado en el estilo del proyecto de referencia
         private bool Validar()
         {
             if (txtCodigo.Text.Length == 0)
@@ -180,7 +180,7 @@ namespace TPWinForm_equipo_3
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
