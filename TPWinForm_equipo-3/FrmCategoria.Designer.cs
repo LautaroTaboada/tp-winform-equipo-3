@@ -71,7 +71,6 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
-            
             // 
             // pictureBox1
             // 
@@ -110,6 +109,7 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(341, 138);
             this.panel3.TabIndex = 5;
+            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // label1
             // 
@@ -190,7 +190,6 @@
             this.btnAgregar.TabIndex = 0;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
-            
             // 
             // FrmCategoria
             // 

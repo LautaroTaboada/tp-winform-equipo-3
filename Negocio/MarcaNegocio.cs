@@ -48,5 +48,77 @@ namespace Negocio
                 throw;
             }
         }
+
+
+        public void agregar(Marca nueva)
+        {
+            using (SqlConnection conexion = new SqlConnection(
+                "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;"))
+            {
+                try
+                {
+                    string consulta = "INSERT INTO MARCAS (Descripcion) VALUES (@descripcion)";
+
+                    SqlCommand comando = new SqlCommand(consulta, conexion);
+                    comando.Parameters.AddWithValue("@descripcion", nueva.Descripcion);
+
+                    conexion.Open();
+                    comando.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public void modificar(Marca seleccionada)
+        {
+            using (SqlConnection conexion = new SqlConnection(
+                "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;"))
+            {
+                try
+                {
+                    string consulta = "UPDATE MARCAS SET Descripcion = @descripcion WHERE Id = @id";
+
+                    SqlCommand comando = new SqlCommand(consulta, conexion);
+                    comando.Parameters.AddWithValue("@descripcion", seleccionada.Descripcion);
+                    comando.Parameters.AddWithValue("@id", seleccionada.idMarca);
+
+                    conexion.Open();
+                    comando.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+
+        public void eliminar(int id)
+        {
+            using (SqlConnection conexion = new SqlConnection(
+                "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;"))
+            {
+                try
+                {
+                    string consulta = "DELETE FROM MARCAS WHERE Id = @id";
+
+                    SqlCommand comando = new SqlCommand(consulta, conexion);
+                    comando.Parameters.AddWithValue("@id", id);
+
+                    conexion.Open();
+                    comando.ExecuteNonQuery();
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+
+
+
     }
 }

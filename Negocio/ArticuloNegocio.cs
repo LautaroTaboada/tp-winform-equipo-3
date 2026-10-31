@@ -17,8 +17,22 @@ namespace Negocio
 
             try
             {
-                datos.SetearConsulta("SELECT A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion Marca, C.Descripcion Categoria, Precio, A.IdMarca, A.IdCategoria FROM ARTICULOS A, CATEGORIAS C, MARCAS M where C.Id= A.IdCategoria and A.IdMarca = M.Id");
-                
+                datos.SetearConsulta(@"
+            SELECT
+                A.Id,
+                A.Codigo,
+                A.Nombre,
+                A.Descripcion,
+                M.Descripcion AS Marca,
+                C.Descripcion AS Categoria,
+                A.Precio,
+                A.IdMarca,
+                A.IdCategoria
+            FROM ARTICULOS A
+            LEFT JOIN MARCAS M ON A.IdMarca = M.Id
+            INNER JOIN CATEGORIAS C ON C.Id = A.IdCategoria
+        ");
+
                 datos.EjecutarLectura();
 
                 while (datos.lector.Read())
@@ -31,8 +45,13 @@ namespace Negocio
                     aux.Descripcion = (string)datos.lector["Descripcion"];
 
                     aux.Marca = new Marca();
-                    aux.Marca.idMarca = (int)datos.lector["IdMarca"];
-                    aux.Marca.Descripcion = (string)datos.lector["Marca"];
+
+                    if (datos.lector["IdMarca"] != DBNull.Value)
+                        aux.Marca.idMarca = (int)datos.lector["IdMarca"];
+
+                    aux.Marca.Descripcion = datos.lector["Marca"] == DBNull.Value
+                        ? "Sin marca"
+                        : (string)datos.lector["Marca"];
 
                     aux.Categoria = new Categoria();
                     aux.Categoria.idCategoria = (int)datos.lector["IdCategoria"];
@@ -172,57 +191,66 @@ namespace Negocio
             }
         }
 
+
         public List<Articulo> buscar(string criterio)
         {
             List<Articulo> lista = new List<Articulo>();
 
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
-            SqlDataReader lector;
-
-            try
+            using (SqlConnection conexion = new SqlConnection(
+                "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;"))
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
-                comando.CommandType = System.Data.CommandType.Text;
+                string consulta = @"SELECT 
+                                A.Id,
+                                A.Codigo,
+                                A.Nombre,
+                                A.Descripcion,
+                                A.IdMarca,
+                                A.IdCategoria,
+                                M.Descripcion AS Marca,
+                                C.Descripcion AS Categoria,
+                                A.Precio
+                            FROM ARTICULOS A
+                            INNER JOIN MARCAS M ON M.Id = A.IdMarca
+                            INNER JOIN CATEGORIAS C ON C.Id = A.IdCategoria
+                            WHERE A.Codigo LIKE @criterio
+                               OR A.Nombre LIKE @criterio";
 
-                comando.CommandText = "SELECT Id, Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio " +
-                                     "FROM ARTICULOS " +
-                                     "WHERE Codigo LIKE @criterio OR Nombre LIKE @criterio";
-
-                comando.Parameters.AddWithValue("@criterio", "%" + criterio + "%");
-
-                comando.Connection = conexion;
-
-                conexion.Open();
-                lector = comando.ExecuteReader();
-
-                while (lector.Read())
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
                 {
-                    Articulo aux = new Articulo();
+                    comando.Parameters.AddWithValue(
+                        "@criterio", "%" + (criterio ?? "").Trim() + "%");
 
-                    aux.Id = (int)lector["Id"];
-                    aux.Codigo = (string)lector["Codigo"];
-                    aux.Nombre = (string)lector["Nombre"];
-                    aux.Descripcion = (string)lector["Descripcion"];
+                    conexion.Open();
 
-                    aux.Marca = new Marca();
-                    aux.Marca.idMarca = (int)lector["IdMarca"];
+                    using (SqlDataReader lector = comando.ExecuteReader())
+                    {
+                        while (lector.Read())
+                        {
+                            Articulo aux = new Articulo();
 
-                    aux.Categoria = new Categoria();
-                    aux.Categoria.idCategoria = (int)lector["IdCategoria"];
+                            aux.Id = (int)lector["Id"];
+                            aux.Codigo = (string)lector["Codigo"];
+                            aux.Nombre = (string)lector["Nombre"];
+                            aux.Descripcion = (string)lector["Descripcion"];
 
-                    aux.Precio = (decimal)lector["Precio"];
+                            aux.Marca = new Marca();
+                            aux.Marca.idMarca = (int)lector["IdMarca"];
+                            aux.Marca.Descripcion = (string)lector["Marca"];
 
-                    lista.Add(aux);
+                            aux.Categoria = new Categoria();
+                            aux.Categoria.idCategoria = (int)lector["IdCategoria"];
+                            aux.Categoria.Descripcion = (string)lector["Categoria"];
+
+                            aux.Precio = (decimal)lector["Precio"];
+
+                            lista.Add(aux);
+                        }
+                    }
                 }
+            }
 
-                conexion.Close();
-                return lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return lista;
         }
+
     }
 }

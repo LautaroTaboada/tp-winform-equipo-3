@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FrmAltaCategoria.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +62,12 @@
     </Compile>
     <Compile Include="FrmCategoria.Designer.cs">
       <DependentUpon>FrmCategoria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMarca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMarca.Designer.cs">
+      <DependentUpon>FrmMarca.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmPrincipal.cs">
       <SubType>Form</SubType>
@@ -74,11 +83,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmAltaCategoria.resx">
       <DependentUpon>FrmAltaCategoria.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmCategoria.resx">
       <DependentUpon>FrmCategoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMarca.resx">
+      <DependentUpon>FrmMarca.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>

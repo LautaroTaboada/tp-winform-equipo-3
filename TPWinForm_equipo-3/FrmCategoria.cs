@@ -110,6 +110,9 @@ namespace TPWinForm_equipo_3
             this.WindowState = FormWindowState.Minimized;
         }
 
-       
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

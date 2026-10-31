@@ -19,18 +19,44 @@ namespace TPWinForm_equipo_3
         public FrmPrincipal()
         {
             InitializeComponent();
+            
+        }
+        private void btnAdministrarMarcas_Click(object sender, EventArgs e)
+        {
+            FrmMarca formulario = new FrmMarca();
+            formulario.ShowDialog();
+
+            // Actualizar el listado al cerrar
+            cargarListado();
         }
         private void cargarImagen(string imagen)
         {
             try
             {
-                pictureBoxArticulo.Load(imagen);
+                pictureBoxArticulo.Image = null;
+
+                if (string.IsNullOrWhiteSpace(imagen))
+                {
+                    return;
+                }
+
+                using (var cliente = new System.Net.WebClient())
+                {
+                    byte[] datos = cliente.DownloadData(imagen);
+
+                    using (var memoria = new System.IO.MemoryStream(datos))
+                    using (var imagenTemporal = Image.FromStream(memoria))
+                    {
+                        pictureBoxArticulo.Image = new Bitmap(imagenTemporal);
+                    }
+                }
             }
             catch (Exception)
             {
-                pictureBoxArticulo.Load("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png");
+                pictureBoxArticulo.Image = null;
             }
         }
+
 
         private void cargarListado()
         {
@@ -57,9 +83,20 @@ namespace TPWinForm_equipo_3
             cargarListado();
         }
 
+
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            Articulo seleccionado = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
+            if (e.RowIndex < 0)
+                return;
+
+            if (dataGridView1.Rows[e.RowIndex].DataBoundItem == null)
+                return;
+
+            Articulo seleccionado =
+                dataGridView1.Rows[e.RowIndex].DataBoundItem as Articulo;
+
+            if (seleccionado == null)
+                return;
 
             FrmArticulo formulario = new FrmArticulo(seleccionado);
             formulario.ShowDialog();
@@ -67,7 +104,8 @@ namespace TPWinForm_equipo_3
             cargarListado();
         }
 
-         private void btnEliminar_Click(object sender, EventArgs e)
+
+        private void btnEliminar_Click(object sender, EventArgs e)
         {
             eliminar();
         }
@@ -95,12 +133,46 @@ namespace TPWinForm_equipo_3
             }
         }
 
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                string criterio = txtBuscar.Text.Trim();
 
-            dataGridView1.DataSource = negocio.buscar(txtBuscar.Text);
+                if (string.IsNullOrEmpty(criterio))
+                {
+                    cargarListado();
+                    return;
+                }
+
+                ArticuloNegocio negocio = new ArticuloNegocio();
+
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = negocio.buscar(criterio);
+
+                if (dataGridView1.Rows.Count == 0)
+                {
+                    articuloActual = null;
+                    pictureBoxArticulo.Image = null;
+
+                    MessageBox.Show(
+                        "No se encontraron artículos con ese criterio.",
+                        "Búsqueda",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Ocurrió un error al buscar el artículo: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
+
 
         private void Filtros_Click(object sender, EventArgs e)
         {
@@ -131,25 +203,50 @@ namespace TPWinForm_equipo_3
 
         }
 
+
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
+            if (dataGridView1.CurrentRow == null ||
+                dataGridView1.CurrentRow.DataBoundItem == null)
+            {
+                articuloActual = null;
+                indiceImagen = 0;
+                pictureBoxArticulo.Image = null;
+                return;
+            }
 
-            if (dataGridView1.CurrentRow == null)
+            articuloActual = dataGridView1.CurrentRow.DataBoundItem as Articulo;
+            
+            if (articuloActual == null)
                 return;
 
-            articuloActual = (Articulo)dataGridView1.CurrentRow.DataBoundItem;
+            try
+            {
+                ImagenNegocio imagenNegocio = new ImagenNegocio();
 
-            ImagenNegocio imagenNegocio = new ImagenNegocio();
+                articuloActual.Imagenes =
+                    imagenNegocio.listarPorArticulo(articuloActual.Id);
+                
 
-            articuloActual.Imagenes =
-                imagenNegocio.listarPorArticulo(articuloActual.Id);
+                indiceImagen = 0;
 
-            indiceImagen = 0;
-
-            if (articuloActual.Imagenes.Count > 0)
-                cargarImagen(articuloActual.Imagenes[indiceImagen].ImagenUrl);
-        
+                if (articuloActual.Imagenes != null &&
+                    articuloActual.Imagenes.Count > 0)
+                {
+                    cargarImagen(articuloActual.Imagenes[indiceImagen].ImagenUrl);
+                }
+                else
+                {
+                    pictureBoxArticulo.Image = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                pictureBoxArticulo.Image = null;
+                MessageBox.Show("No se pudieron cargar las imágenes: " + ex.Message);
+            }
         }
+
 
         private void btnAtras_Click(object sender, EventArgs e)
         {
@@ -184,6 +281,17 @@ namespace TPWinForm_equipo_3
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrmMarca formulario = new FrmMarca();
+            formulario.ShowDialog();
+        }
+
+        private void cbFiltroCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

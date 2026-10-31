@@ -45,6 +45,7 @@
             this.btnEliminar = new System.Windows.Forms.Button();
             this.pictureBoxArticulo = new System.Windows.Forms.PictureBox();
             this.cbFiltroCategoria = new System.Windows.Forms.ComboBox();
+            this.btnAdministrarMarcas = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxArticulo)).BeginInit();
@@ -140,6 +141,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(20)))), ((int)(((byte)(40)))));
+            this.panel1.Controls.Add(this.btnAdministrarMarcas);
             this.panel1.Controls.Add(this.btnAgregarCategoria);
             this.panel1.Controls.Add(this.btnAgregar);
             this.panel1.Controls.Add(this.btnEliminar);
@@ -218,6 +220,19 @@
             this.cbFiltroCategoria.Name = "cbFiltroCategoria";
             this.cbFiltroCategoria.Size = new System.Drawing.Size(107, 21);
             this.cbFiltroCategoria.TabIndex = 10;
+            this.cbFiltroCategoria.SelectedIndexChanged += new System.EventHandler(this.cbFiltroCategoria_SelectedIndexChanged);
+            // 
+            // btnAdministrarMarcas
+            // 
+            this.btnAdministrarMarcas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(20)))), ((int)(((byte)(40)))));
+            this.btnAdministrarMarcas.ForeColor = System.Drawing.Color.White;
+            this.btnAdministrarMarcas.Location = new System.Drawing.Point(46, 188);
+            this.btnAdministrarMarcas.Name = "btnAdministrarMarcas";
+            this.btnAdministrarMarcas.Size = new System.Drawing.Size(131, 23);
+            this.btnAdministrarMarcas.TabIndex = 18;
+            this.btnAdministrarMarcas.Text = "Administrar Marcas";
+            this.btnAdministrarMarcas.UseVisualStyleBackColor = false;
+            this.btnAdministrarMarcas.Click += new System.EventHandler(this.button1_Click);
             // 
             // FrmPrincipal
             // 
@@ -268,6 +283,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAgregarCategoria;
         private System.Windows.Forms.ComboBox cbFiltroCategoria;
+        private System.Windows.Forms.Button btnAdministrarMarcas;
     }
 }
 
