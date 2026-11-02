@@ -16,6 +16,8 @@ namespace TPWinForm_equipo_3
     {
         private int indiceImagen = 0;
         private Articulo articuloActual;
+        private List<Articulo> listaArticulos;      // lista completa traída de la base (como listaPokemon del profe)
+        private bool cargandoFiltros = false;       // evita filtrar mientras se cargan los combos
         public FrmPrincipal()
         {
             InitializeComponent();
@@ -26,7 +28,8 @@ namespace TPWinForm_equipo_3
             FrmMarca formulario = new FrmMarca();
             formulario.ShowDialog();
 
-            // Actualizar el listado al cerrar
+            // Recargar los combos de filtro (pudieron cambiar las marcas) y el listado
+            cargarFiltros();
             cargarListado();
         }
         private void cargarImagen(string imagen)
@@ -62,11 +65,27 @@ namespace TPWinForm_equipo_3
         private void cargarListado()
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
-            dataGridView1.DataSource = negocio.listar();
+
+            try
+            {
+                listaArticulos = negocio.listar();
+
+                // Muestra la lista aplicando el texto y los filtros que estén elegidos
+                aplicarFiltros(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los artículos: " + ex.Message);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            cbFiltroMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFiltroCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFiltroMarca.SelectedIndexChanged += cbFiltroMarca_SelectedIndexChanged;
+
+            cargarFiltros();
             cargarListado();
 
         }
@@ -137,41 +156,7 @@ namespace TPWinForm_equipo_3
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string criterio = txtBuscar.Text.Trim();
-
-                if (string.IsNullOrEmpty(criterio))
-                {
-                    cargarListado();
-                    return;
-                }
-
-                ArticuloNegocio negocio = new ArticuloNegocio();
-
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = negocio.buscar(criterio);
-
-                if (dataGridView1.Rows.Count == 0)
-                {
-                    articuloActual = null;
-                    pictureBoxArticulo.Image = null;
-
-                    MessageBox.Show(
-                        "No se encontraron artículos con ese criterio.",
-                        "Búsqueda",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Ocurrió un error al buscar el artículo: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
+            aplicarFiltros(true);
         }
 
 
@@ -279,6 +264,10 @@ namespace TPWinForm_equipo_3
             FrmCategoria ventana = new FrmCategoria();
 
             ventana.ShowDialog();
+
+            // Recargar los combos de filtro (pudieron cambiar las categorías) y el listado
+            cargarFiltros();
+            cargarListado();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -288,13 +277,108 @@ namespace TPWinForm_equipo_3
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FrmMarca formulario = new FrmMarca();
-            formulario.ShowDialog();
+            // Mismo comportamiento que btnAdministrarMarcas_Click (recarga filtros y listado)
+            btnAdministrarMarcas_Click(sender, e);
         }
 
         private void cbFiltroCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (!cargandoFiltros)
+                aplicarFiltros(false);
+        }
 
+        private void cbFiltroMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!cargandoFiltros)
+                aplicarFiltros(false);
+        }
+
+        // Llena los combos de filtro con las marcas y categorías de la base.
+        // El primer ítem es "Todas" (Id 0 = sin filtro).
+        private void cargarFiltros()
+        {
+            MarcaNegocio marcaNegocio = new MarcaNegocio();
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+
+            try
+            {
+                cargandoFiltros = true;
+
+                List<Marca> marcas = marcaNegocio.listar();
+                Marca todasLasMarcas = new Marca();
+                todasLasMarcas.idMarca = 0;
+                todasLasMarcas.Descripcion = "Todas";
+                marcas.Insert(0, todasLasMarcas);
+
+                cbFiltroMarca.DisplayMember = "Descripcion";
+                cbFiltroMarca.ValueMember = "idMarca";
+                cbFiltroMarca.DataSource = marcas;
+
+                List<Categoria> categorias = categoriaNegocio.listar();
+                Categoria todasLasCategorias = new Categoria();
+                todasLasCategorias.idCategoria = 0;
+                todasLasCategorias.Descripcion = "Todas";
+                categorias.Insert(0, todasLasCategorias);
+
+                cbFiltroCategoria.DisplayMember = "Descripcion";
+                cbFiltroCategoria.ValueMember = "idCategoria";
+                cbFiltroCategoria.DataSource = categorias;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudieron cargar los filtros: " + ex.Message);
+            }
+            finally
+            {
+                cargandoFiltros = false;
+            }
+        }
+
+        // Filtra la lista que ya está cargada en memoria (misma idea que txtFiltro_TextChanged
+        // del profe: FindAll con una expresión lambda). Se combinan texto, marca y categoría.
+        // avisarSinResultados: solo se pasa true desde el botón Buscar.
+        private void aplicarFiltros(bool avisarSinResultados)
+        {
+            if (listaArticulos == null)
+                return;
+
+            List<Articulo> listaFiltrada = listaArticulos;
+
+            string filtro = txtBuscar.Text.Trim().ToUpper();
+            if (filtro != "")
+            {
+                listaFiltrada = listaFiltrada.FindAll(x => x.Codigo.ToUpper().Contains(filtro) || x.Nombre.ToUpper().Contains(filtro) || x.Descripcion.ToUpper().Contains(filtro));
+            }
+
+            if (cbFiltroMarca.SelectedValue is int && (int)cbFiltroMarca.SelectedValue != 0)
+            {
+                int idMarca = (int)cbFiltroMarca.SelectedValue;
+                listaFiltrada = listaFiltrada.FindAll(x => x.Marca.idMarca == idMarca);
+            }
+
+            if (cbFiltroCategoria.SelectedValue is int && (int)cbFiltroCategoria.SelectedValue != 0)
+            {
+                int idCategoria = (int)cbFiltroCategoria.SelectedValue;
+                listaFiltrada = listaFiltrada.FindAll(x => x.Categoria.idCategoria == idCategoria);
+            }
+
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = listaFiltrada;
+
+            if (listaFiltrada.Count == 0)
+            {
+                articuloActual = null;
+                pictureBoxArticulo.Image = null;
+
+                if (avisarSinResultados)
+                {
+                    MessageBox.Show(
+                        "No se encontraron artículos con ese criterio.",
+                        "Búsqueda",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

@@ -98,6 +98,9 @@ namespace Negocio
 
         public void eliminar(int id)
         {
+            if (estaEnUso(id))
+                throw new Exception("Hay artículos que usan esta marca.");
+
             using (SqlConnection conexion = new SqlConnection(
                 "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;"))
             {
@@ -118,7 +121,52 @@ namespace Negocio
             }
         }
 
+        public bool estaEnUso(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(*) FROM ARTICULOS WHERE IdMarca = @id");
+                datos.SetearParametro("@id", id);
+                datos.EjecutarLectura();
+
+                datos.lector.Read();
+                return (int)datos.lector[0] > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public bool existe(string descripcion, int idExcluir)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(*) FROM MARCAS WHERE LOWER(LTRIM(RTRIM(Descripcion))) = LOWER(@descripcion) AND Id <> @id");
+                datos.SetearParametro("@descripcion", descripcion.Trim());
+                datos.SetearParametro("@id", idExcluir);
+                datos.EjecutarLectura();
+
+                datos.lector.Read();
+                return (int)datos.lector[0] > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
 
     }
 }

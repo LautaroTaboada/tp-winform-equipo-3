@@ -150,6 +150,12 @@ namespace TPWinForm_equipo_3
 
             try
             {
+                if (negocio.existe(nueva.Descripcion, 0))
+                {
+                    MessageBox.Show("Ya existe una marca con ese nombre.");
+                    return;
+                }
+
                 negocio.agregar(nueva);
 
                 MessageBox.Show("Marca agregada correctamente.");
@@ -184,6 +190,13 @@ namespace TPWinForm_equipo_3
 
             try
             {
+                if (negocio.existe(seleccionada.Descripcion, seleccionada.idMarca))
+                {
+                    MessageBox.Show("Ya existe una marca con ese nombre.");
+                    cargarMarcas();
+                    return;
+                }
+
                 negocio.modificar(seleccionada);
 
                 MessageBox.Show("Marca modificada correctamente.");

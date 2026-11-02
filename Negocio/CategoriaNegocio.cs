@@ -1,10 +1,6 @@
 ﻿using Dominio;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocio
 {
@@ -13,33 +9,23 @@ namespace Negocio
         public List<Categoria> listar()
         {
             List<Categoria> lista = new List<Categoria>();
-
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
-            SqlDataReader lector;
+            AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
-                comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "SELECT Id, Descripcion FROM CATEGORIAS";
-                comando.Connection = conexion;
+                datos.SetearConsulta("SELECT Id, Descripcion FROM CATEGORIAS");
+                datos.EjecutarLectura();
 
-                conexion.Open();
-
-                lector = comando.ExecuteReader();
-
-                while (lector.Read())
+                while (datos.lector.Read())
                 {
                     Categoria aux = new Categoria();
 
-                    aux.idCategoria= (int)lector["Id"];
-                    aux.Descripcion = (string)lector["Descripcion"];
+                    aux.idCategoria = (int)datos.lector["Id"];
+                    if (!(datos.lector["Descripcion"] is DBNull))
+                        aux.Descripcion = (string)datos.lector["Descripcion"];
 
                     lista.Add(aux);
                 }
-
-                conexion.Close();
 
                 return lista;
             }
@@ -47,26 +33,21 @@ namespace Negocio
             {
                 throw ex;
             }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
+
         public void agregar(Categoria nueva)
         {
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
+            AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
-                comando.CommandType = System.Data.CommandType.Text;
-                
-                comando.CommandText = "INSERT INTO CATEGORIAS (Descripcion) VALUES (@descripcion)";
-                
-                comando.Parameters.AddWithValue("@descripcion", nueva.Descripcion);
-                comando.Connection = conexion;
-
-                conexion.Open();
-                
-                comando.ExecuteNonQuery();
+                datos.SetearConsulta("INSERT INTO CATEGORIAS (Descripcion) VALUES (@descripcion)");
+                datos.SetearParametro("@descripcion", nueva.Descripcion);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -74,30 +55,20 @@ namespace Negocio
             }
             finally
             {
-                
-                conexion.Close();
+                datos.CerrarConexion();
             }
         }
 
-        
         public void modificar(Categoria seleccionada)
         {
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
+            AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
-                comando.CommandType = System.Data.CommandType.Text;
-                
-                comando.CommandText = "UPDATE CATEGORIAS SET Descripcion = @descripcion WHERE Id = @id";
-                comando.Parameters.AddWithValue("@descripcion", seleccionada.Descripcion);
-                
-                comando.Parameters.AddWithValue("@id", seleccionada.idCategoria);
-                comando.Connection = conexion;
-
-                conexion.Open();
-                comando.ExecuteNonQuery();
+                datos.SetearConsulta("UPDATE CATEGORIAS SET Descripcion = @descripcion WHERE Id = @id");
+                datos.SetearParametro("@descripcion", seleccionada.Descripcion);
+                datos.SetearParametro("@id", seleccionada.idCategoria);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -105,27 +76,24 @@ namespace Negocio
             }
             finally
             {
-                conexion.Close();
+                datos.CerrarConexion();
             }
         }
 
-        
         public void eliminar(int id)
         {
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
+            AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true;";
-                comando.CommandType = System.Data.CommandType.Text;
-                
-                comando.CommandText = "DELETE FROM CATEGORIAS WHERE Id = @id";
-                comando.Parameters.AddWithValue("@id", id);
-                comando.Connection = conexion;
+                // La base no tiene clave foránea: si no lo controlamos acá,
+                // se borraría una categoría que todavía usan los artículos.
+                if (estaEnUso(id))
+                    throw new Exception("No se puede eliminar la categoría porque hay artículos que la usan.");
 
-                conexion.Open();
-                comando.ExecuteNonQuery();
+                datos.SetearConsulta("DELETE FROM CATEGORIAS WHERE Id = @id");
+                datos.SetearParametro("@id", id);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -133,7 +101,57 @@ namespace Negocio
             }
             finally
             {
-                conexion.Close();
+                datos.CerrarConexion();
+            }
+        }
+
+        // true si hay al menos un artículo con esa categoría
+        public bool estaEnUso(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(*) FROM ARTICULOS WHERE IdCategoria = @id");
+                datos.SetearParametro("@id", id);
+                datos.EjecutarLectura();
+
+                datos.lector.Read();
+                return (int)datos.lector[0] > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        // true si ya existe OTRA categoría con ese nombre.
+        // idExcluir: Id de la categoría que se está modificando (0 si es un alta).
+        public bool existe(string descripcion, int idExcluir)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(*) FROM CATEGORIAS WHERE LOWER(LTRIM(RTRIM(Descripcion))) = LOWER(@descripcion) AND Id <> @id");
+                datos.SetearParametro("@descripcion", descripcion.Trim());
+                datos.SetearParametro("@id", idExcluir);
+                datos.EjecutarLectura();
+
+                datos.lector.Read();
+                return (int)datos.lector[0] > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
             }
         }
     }

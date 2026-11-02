@@ -232,5 +232,10 @@ namespace TPWinForm_equipo_3
         {
             cargarImagen(TbxUrl.Text);
         }
+
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -49,6 +49,20 @@ namespace Negocio
             }
             
         }
+        // Para INSERT, UPDATE y DELETE (no devuelven filas)
+        public void EjecutarAccion()
+        {
+            Comando.Connection = Conexion;
+            try
+            {
+                Conexion.Open();
+                Comando.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public void CerrarConexion()
         {
             if (Lector != null)
