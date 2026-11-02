@@ -44,9 +44,8 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.cmbMarca = new System.Windows.Forms.ComboBox();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
-            this.btnVistaPrevia = new System.Windows.Forms.Button();
             this.lblUrlArticulo = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TbxUrl = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picImagen)).BeginInit();
             this.SuspendLayout();
             // 
@@ -147,6 +146,7 @@
             this.picImagen.Location = new System.Drawing.Point(572, 267);
             this.picImagen.Name = "picImagen";
             this.picImagen.Size = new System.Drawing.Size(150, 150);
+            this.picImagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picImagen.TabIndex = 13;
             this.picImagen.TabStop = false;
             // 
@@ -188,16 +188,6 @@
             this.cmbCategoria.Size = new System.Drawing.Size(100, 21);
             this.cmbCategoria.TabIndex = 17;
             // 
-            // btnVistaPrevia
-            // 
-            this.btnVistaPrevia.Location = new System.Drawing.Point(423, 277);
-            this.btnVistaPrevia.Name = "btnVistaPrevia";
-            this.btnVistaPrevia.Size = new System.Drawing.Size(42, 37);
-            this.btnVistaPrevia.TabIndex = 18;
-            this.btnVistaPrevia.Text = "VistaPrevia";
-            this.btnVistaPrevia.UseVisualStyleBackColor = true;
-            this.btnVistaPrevia.Click += new System.EventHandler(this.btnVistaPrevia_Click);
-            // 
             // lblUrlArticulo
             // 
             this.lblUrlArticulo.AutoSize = true;
@@ -207,12 +197,13 @@
             this.lblUrlArticulo.TabIndex = 19;
             this.lblUrlArticulo.Text = "Url:";
             // 
-            // textBox1
+            // TbxUrl
             // 
-            this.textBox1.Location = new System.Drawing.Point(296, 282);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(121, 20);
-            this.textBox1.TabIndex = 20;
+            this.TbxUrl.Location = new System.Drawing.Point(296, 282);
+            this.TbxUrl.Name = "TbxUrl";
+            this.TbxUrl.Size = new System.Drawing.Size(121, 20);
+            this.TbxUrl.TabIndex = 20;
+            this.TbxUrl.Leave += new System.EventHandler(this.TbxUrl_Leave);
             // 
             // FrmArticulo
             // 
@@ -220,9 +211,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ClientSize = new System.Drawing.Size(766, 492);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.TbxUrl);
             this.Controls.Add(this.lblUrlArticulo);
-            this.Controls.Add(this.btnVistaPrevia);
             this.Controls.Add(this.cmbCategoria);
             this.Controls.Add(this.cmbMarca);
             this.Controls.Add(this.btnCancelar);
@@ -267,8 +257,7 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.ComboBox cmbMarca;
         private System.Windows.Forms.ComboBox cmbCategoria;
-        private System.Windows.Forms.Button btnVistaPrevia;
         private System.Windows.Forms.Label lblUrlArticulo;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TbxUrl;
     }
 }

@@ -54,6 +54,7 @@ namespace TPWinForm_equipo_3
             catch (Exception)
             {
                 pictureBoxArticulo.Image = null;
+                pictureBoxArticulo.Load("https://img.magnific.com/vector-premium/icono-marco-fotos-foto-vacia-blanco-vector-sobre-fondo-transparente-aislado-eps-10_399089-1290.jpg");
             }
         }
 

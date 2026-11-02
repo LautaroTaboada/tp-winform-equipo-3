@@ -58,7 +58,18 @@ namespace TPWinForm_equipo_3
         private void FrmArticulo_Load(object sender, EventArgs e)
         {
         }
+        private void cargarImagen(String Imagen)
+        {
+            try
+            {
+                picImagen.Load(Imagen);
+            }
+            catch (Exception)
+            {
+                picImagen.Load("https://img.magnific.com/vector-premium/icono-marco-fotos-foto-vacia-blanco-vector-sobre-fondo-transparente-aislado-eps-10_399089-1290.jpg");
 
+            }
+        }
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             // Validamos antes de asignar o tocar la base de datos
@@ -215,6 +226,11 @@ namespace TPWinForm_equipo_3
         private void txtCodigo_TextChanged_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void TbxUrl_Leave(object sender, EventArgs e)
+        {
+            cargarImagen(TbxUrl.Text);
         }
     }
 }
